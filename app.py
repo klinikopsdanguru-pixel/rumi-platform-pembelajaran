@@ -1005,10 +1005,10 @@ def backup_database():
         return redirect(url_for('admin_dashboard'))
 
 
-if __name__ == '__main__':
+   # if __name__ == '__main__':
     # Blok ini akan membuat tabel dan badge awal setiap kali aplikasi dijalankan.
     # Berguna untuk pengembangan, bisa dihapus atau diubah untuk produksi.
-    with app.app_context():
-        db.create_all()
-        create_default_badges()
-    app.run
+    # with app.app_context():
+        # db.create_all()
+        # create_default_badges()
+    # app.run(debug=True)
