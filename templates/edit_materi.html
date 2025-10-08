@@ -1,0 +1,22 @@
+{% extends 'layout.html' %}
+{% block title %}Edit Materi Pokok{% endblock %}
+{% block content %}
+<div class="container" style="max-width: 700px;">
+    <h2>Edit Materi Pokok</h2>
+    <p class="text-muted">Untuk Tujuan Pembelajaran: <strong>{{ materi.tp.deskripsi }}</strong></p>
+    <form method="POST" action="{{ url_for('edit_materi', materi_id=materi.id) }}" class="card p-4 shadow-sm">
+        <div class="mb-3">
+            <label for="judul" class="form-label">Judul Materi Pokok</label>
+            <input type="text" class="form-control" id="judul" name="judul" value="{{ materi.judul }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="deskripsi" class="form-label">Deskripsi Singkat</label>
+            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3">{{ materi.deskripsi }}</textarea>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a href="{{ url_for('detail_tp', tp_id=materi.tp_id) }}" class="btn btn-danger me-2">Batal</a>
+            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

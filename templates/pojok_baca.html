@@ -1,0 +1,57 @@
+{% extends 'layout.html' %}
+{% block title %}Pojok Baca Sains{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="p-5 mb-4 bg-light rounded-3 shadow-sm pojok-baca-header">
+        <div class="container-fluid py-3">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="display-5 fw-bold"><i class="fas fa-book-reader me-3"></i>Pojok Baca Sains</h1>
+                    <p class="col-md-8 fs-4">Perluas wawasanmu dengan koleksi bacaan pilihan seputar dunia sains yang
+                        menarik dan informatif.</p>
+                </div>
+                {% if session.user_role == 'guru' %}
+                <div class="ms-3">
+                    <a href="{{ url_for('kelola_pojok_baca') }}" class="btn btn-info btn-lg flex-shrink-0">
+                        <i class="fas fa-edit me-2"></i>Kelola Koleksi
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <form method="GET" action="{{ url_for('pojok_baca') }}" class="mb-4">
+        <div class="input-group">
+            <input type="search" class="form-control" placeholder="Cari judul buku..." name="q" value="{{ search_query or '' }}">
+            <button class="btn btn-primary" type="submit"><i class="fas fa-search"></i> Cari</button>
+        </div>
+    </form>
+
+    {% if search_query %}
+        <h4 class="mb-3">Hasil pencarian untuk: "{{ search_query }}"</h4>
+    {% endif %}
+
+    <div class="row row-cols-2 row-cols-md-3 row-cols-lg-5 g-4">
+        {% for bacaan in semua_bacaan %}
+        <div class="col">
+            <div class="card h-100 shadow-sm text-center">
+                <img src="{{ bacaan.url_sampul }}" class="card-img-top" alt="Sampul {{ bacaan.judul }}">
+                <div class="card-body">
+                    <h6 class="card-title">{{ bacaan.judul }}</h6>
+                </div>
+                <div class="card-footer">
+                    <a href="{{ bacaan.url_konten }}" data-title="{{ bacaan.judul }}"
+                        class="btn btn-sm btn-primary read-now-btn">Baca Sekarang</a>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <div class="col-12">
+            <div class="alert alert-info">Koleksi bacaan belum tersedia saat ini.</div>
+        </div>
+        {% endfor %}
+    </div>
+
+</div>
+{% endblock %}

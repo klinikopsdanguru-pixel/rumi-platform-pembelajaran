@@ -1,0 +1,75 @@
+{% extends 'layout.html' %}
+{% block title %}Monitoring Siswa{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="monitoring-container">
+        <div class="monitoring-fixed-header">
+            <a href="{{ url_for('dashboard') }}" class="text-decoration-none mb-3 d-inline-block">
+                <i class="fas fa-arrow-left me-2"></i>Kembali ke Dashboard
+            </a>
+            <div class="mb-4">
+                <h2><i class="fas fa-chart-bar me-2"></i>Monitoring Progres Siswa</h2>
+                <p class="text-muted">Pantau kemajuan belajar semua siswa di sekolah Anda berdasarkan kelas.</p>
+            </div>
+            <ul class="nav nav-tabs nav-fill mb-0" id="kelasTabMonitoring" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="kelas-7-tab-mon" data-bs-toggle="tab" data-bs-target="#kelas-7-pane-mon" type="button">Kelas 7</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="kelas-8-tab-mon" data-bs-toggle="tab" data-bs-target="#kelas-8-pane-mon" type="button">Kelas 8</button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="kelas-9-tab-mon" data-bs-toggle="tab" data-bs-target="#kelas-9-pane-mon" type="button">Kelas 9</button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content monitoring-scrollable-content" id="kelasTabContentMonitoring">
+            {% for kelas in ['7', '8', '9'] %}
+            <div class="tab-pane fade {% if loop.first %}show active{% endif %}" id="kelas-{{ kelas }}-pane-mon" role="tabpanel">
+                {% set siswa_per_kelas = data_progres|selectattr('siswa.kelas', 'equalto', kelas)|list %}
+                <div class="table-responsive">
+                    <table class="table table-hover align-middle">
+                        <thead>
+                            <tr>
+                                <th scope="col">Nama Siswa</th>
+                                <th scope="col">Materi Selesai</th>
+                                <th scope="col">Lencana</th>
+                                <th scope="col">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in siswa_per_kelas %}
+                            <tr>
+                                <td data-label="Nama Siswa"><strong>{{ item.siswa.nama_lengkap }}</strong></td>
+                                <td data-label="Materi Selesai">
+                                    <div class="d-flex align-items-center gap-2">
+                                    {% if item.total_materi > 0 %}
+                                        <div class="progress flex-grow-1" style="height: 20px;">
+                                            <div class="progress-bar" role="progressbar" style="width: {{ (item.selesai_materi / item.total_materi) * 100 }}%;"></div>
+                                        </div>
+                                        <span class="fw-bold">{{ item.selesai_materi }}/{{ item.total_materi }}</span>
+                                    {% else %}
+                                        <span class="text-muted">N/A</span>
+                                    {% endif %}
+                                    </div>
+                                </td>
+                                <td data-label="Lencana"><span class="badge bg-warning rounded-pill fs-6">{{ item.jumlah_lencana }}</span></td>
+                                <td data-label="Aksi">
+                                    <a href="{{ url_for('detail_siswa', siswa_id=item.siswa.id) }}" class="btn btn-sm btn-info">Lihat Detail</a>
+                                </td>
+                            </tr>
+                            {% else %}
+                            <tr>
+                                <td colspan="4" class="text-center text-muted">Belum ada siswa yang terdaftar di kelas ini.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

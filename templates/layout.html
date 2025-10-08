@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="id">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% endblock %} - Platform RUMI</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    {% if 'user_id' in session %}
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm">
+            <div class="container-fluid">
+                <a class="navbar-brand fw-bold" href="{{ url_for('dashboard') }}">RUMI IPA</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'dashboard' %}active{% endif %}"
+                                href="{{ url_for('dashboard') }}">Dashboard</a>
+                        </li>
+                        {% if session.user_role == 'siswa' %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'jalur_belajar' or request.endpoint == 'materi_detail' %}active{% endif %}"
+                                href="{{ url_for('jalur_belajar') }}">Jalur Belajarku</a>
+                        </li>
+                        {% endif %}
+                        <li class="nav-item">
+                            <a class="nav-link {% if request.endpoint == 'pojok_baca' or request.endpoint == 'kelola_pojok_baca' %}active{% endif %}"
+                                href="{{ url_for('pojok_baca') }}">Pojok Baca Sains</a>
+                        </li>
+                    </ul>
+                    <div class="navbar-nav">
+                        <li class="nav-item dropdown">
+                            <a class="nav-link" href="#" id="notificationDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false" style="position: relative;">
+                                <i class="fas fa-bell"></i>
+                                {% if jumlah_notifikasi_belum_dibaca > 0 %}
+                                <span
+                                    class="badge rounded-pill bg-danger"
+                                    style="font-size: 0.6em;">
+                                    {{ jumlah_notifikasi_belum_dibaca }}
+                                </span>
+                                {% endif %}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="notificationDropdown">
+                                {% if notifikasi_header %}
+                                {% for notif in notifikasi_header %}
+                                <li>
+                                    <div class="dropdown-item {% if notif.sudah_dibaca %}text-muted{% endif %}"
+                                        style="white-space: normal; width: 350px;">
+                                        <p class="mb-1 small {% if not notif.sudah_dibaca %}fw-bold{% endif %}">{{
+                                            notif.konten }}</p>
+                                        <small>Dari: {{ notif.pengirim.nama_lengkap }} &bull; {{
+                                            notif.timestamp.strftime('%d %b %Y, %H:%M') }}</small>
+                                    </div>
+                                </li>
+                                {% endfor %}
+                                {% else %}
+                                <li><a class="dropdown-item" href="#">Tidak ada notifikasi</a></li>
+                                {% endif %}
+                            </ul>
+                        </li>
+                        <li class="nav-item dropdown">
+
+                            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
+                                data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fas fa-user-circle me-1"></i>
+                                {{ session.user_name }}
+                            </a>
+                            <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
+                                {% if session.user_role == 'admin' %}
+                                <li><a class="dropdown-item" href="{{ url_for('admin_dashboard') }}"><i
+                                            class="fas fa-user-shield me-2"></i>Admin Dashboard</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                {% endif %}
+                                <li><a class="dropdown-item" href="{{ url_for('profil') }}">Profilku</a></li>
+                                <li>
+                                    <hr class="dropdown-divider">
+                                </li>
+                                <li><a class="dropdown-item" href="{{ url_for('logout') }}"><i
+                                            class="fas fa-sign-out-alt me-2"></i>Keluar</a></li>
+                            </ul>
+                        </li>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+    {% endif %}
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+    {% if messages %}
+    <div style="position: fixed; top: 1rem; right: 1rem; z-index: 1050; width: auto; max-width: 400px;">
+        {% for category, message in messages %}
+        <div class="alert alert-{{ category }} alert-dismissible fade show" role="alert">
+            {{ message }}
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+    {% endwith %}
+
+    <main class="{% if request.endpoint == 'index' %}p-0{% else %}py-4{% endif %}">
+        {% block content %}{% endblock %}
+    </main>
+
+    <div class="modal fade" id="contentModal" tabindex="-1">
+        <div class="modal-dialog modal-xl modal-fullscreen-lg-down">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="contentModalLabel">Memuat Konten...</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-0">
+                    <iframe id="contentFrame" src="about:blank"
+                        style="width: 100%; height: calc(100vh - 58px); border: none;"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+</body>
+
+</html>

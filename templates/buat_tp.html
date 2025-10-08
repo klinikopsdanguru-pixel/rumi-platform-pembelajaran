@@ -1,0 +1,25 @@
+{% extends 'layout.html' %}
+{% block title %}Buat TP Baru{% endblock %}
+{% block content %}
+<div class="container" style="max-width: 700px;">
+    <h2>Buat Tujuan Pembelajaran Baru</h2>
+    <form method="POST" action="{{ url_for('buat_tp') }}" class="card p-4 shadow-sm">
+        <div class="mb-3">
+            <label for="deskripsi" class="form-label">Deskripsi Tujuan Pembelajaran</label>
+            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" placeholder="Contoh: Siswa dapat menjelaskan konsep getaran, gelombang, dan bunyi dalam kehidupan sehari-hari." required></textarea>
+        </div>
+        <div class="mb-3">
+            <label for="kelas_tujuan" class="form-label">Untuk Kelas</label>
+            <select class="form-select" id="kelas_tujuan" name="kelas_tujuan" required>
+                <option value="7">Kelas 7</option>
+                <option value="8">Kelas 8</option>
+                <option value="9">Kelas 9</option>
+            </select>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a href="{{ url_for('studio') }}" class="btn btn-danger me-2">Batal</a>
+            <button type="submit" class="btn btn-success">Simpan</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

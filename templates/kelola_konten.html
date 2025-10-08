@@ -1,0 +1,84 @@
+{% extends 'layout.html' %}
+{% block title %}{{ 'Edit' if konten_to_edit else 'Kelola' }} Konten: {{ materi.judul }}{% endblock %}
+{% block content %}
+<div class="container">
+    <a href="{{ url_for('detail_tp', tp_id=materi.tp_id) }}" class="text-decoration-none mb-3 d-inline-block"><i
+            class="fas fa-arrow-left me-2"></i>Kembali ke Detail TP</a>
+    <h2>Kelola Konten</h2>
+    <p class="lead text-muted">Untuk Materi Pokok: <strong>{{ materi.judul }}</strong></p>
+    <hr>
+
+    <div class="row g-5">
+        <div class="col-md-7">
+            <h4>Daftar Konten Saat Ini</h4>
+            {% if materi.kontens %}
+            <ul class="list-group">
+                {% for konten in materi.kontens|sort(attribute='id') %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div>
+                        <span class="badge bg-primary me-2">{{ konten.alur|capitalize }}</span>
+                        {{ konten.judul }}
+                    </div>
+                    <div class="d-flex align-items-center">
+                        <a href="{{ url_for('edit_konten', konten_id=konten.id) }}" class="btn btn-sm btn-warning me-2">
+                            <i class="fas fa-edit"></i>
+                        </a>
+                        <form action="{{ url_for('hapus_konten', konten_id=konten.id) }}" method="POST" class="d-inline"
+                            onsubmit="return confirm('Apakah Anda yakin ingin menghapus konten ini?');">
+                            <button type="submit" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </li>
+                {% endfor %}
+            </ul>
+            {% else %}
+            <div class="alert alert-light">Belum ada konten di dalam materi ini. Silakan tambahkan melalui form di
+                samping.</div>
+            {% endif %}
+        </div>
+
+        <div class="col-md-5">
+            <h4>{{ 'Edit Konten' if konten_to_edit else 'Tambah Konten Baru' }}</h4>
+            <form method="POST"
+                action="{{ url_for('edit_konten', konten_id=konten_to_edit.id) if konten_to_edit else url_for('kelola_konten', materi_id=materi.id) }}"
+                class="card p-3 bg-light">
+                <div class="mb-3">
+                    <label for="judul" class="form-label">Judul Konten</label>
+                    <input type="text" class="form-control" id="judul" name="judul"
+                        value="{{ konten_to_edit.judul if konten_to_edit else '' }}" required>
+                </div>
+                <div class="mb-3">
+                    <label for="alur" class="form-label">Alur Belajar</label>
+                    <select class="form-select" id="alur" name="alur" required>
+                        <option value="memahami" {% if konten_to_edit and konten_to_edit.alur=='memahami' %}selected{%
+                            endif %}>Memahami</option>
+                        <option value="mengaplikasi" {% if konten_to_edit and konten_to_edit.alur=='mengaplikasi'
+                            %}selected{% endif %}>Mengaplikasi</option>
+                        <option value="merefleksi" {% if konten_to_edit and konten_to_edit.alur=='merefleksi'
+                            %}selected{% endif %}>Merefleksi</option>
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="tipe" class="form-label">Tipe Konten</label>
+                    <select class="form-select" id="tipe" name="tipe" required>
+                        {% if konten_to_edit %}
+                        <option value="{{ konten_to_edit.tipe }}" selected>{{ konten_to_edit.tipe }}</option>
+                        {% endif %}
+                    </select>
+                </div>
+                <div class="mb-3">
+                    <label for="sumber_url" class="form-label">URL Sumber</label>
+                    <input type="url" class="form-control" id="sumber_url" name="sumber_url"
+                        value="{{ konten_to_edit.sumber_url if konten_to_edit else '' }}" placeholder="https://..."
+                        required>
+                    <div class="form-text">Tempelkan link Google Drive, YouTube, atau link website di sini.</div>
+                </div>
+                <button type="submit" class="btn btn-success">{{ 'Simpan Perubahan' if konten_to_edit else 'Tambah
+                    Konten' }}</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

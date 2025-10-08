@@ -1,0 +1,136 @@
+{% extends 'layout.html' %}
+{% block title %}Detail Progres: {{ siswa.nama_lengkap }}{% endblock %}
+{% block content %}
+<div class="container">
+    <a href="{{ url_for('monitoring_siswa') }}" class="text-decoration-none mb-3 d-inline-block">
+        <i class="fas fa-arrow-left me-2"></i>Kembali ke Monitoring
+    </a>
+    <h2>Detail Progres: {{ siswa.nama_lengkap }}</h2>
+    <p class="text-muted">Kelas: {{ siswa.kelas }}</p>
+    <hr>
+
+    <div class="row g-3 text-center mb-4">
+        <div class="col-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-subtitle text-muted">Materi Selesai</h6>
+                    <p class="fs-4 fw-bold mb-0">{{ materi_selesai|length }} / {{ materi_selesai|length +
+                        materi_belum_selesai|length }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-subtitle text-muted">Lencana Didapat</h6>
+                    <p class="fs-4 fw-bold mb-0">{{ siswa.badges|length }}</p>
+                </div>
+            </div>
+        </div>
+        <div class="col-4">
+            <div class="card h-100 shadow-sm">
+                <div class="card-body">
+                    <h6 class="card-subtitle text-muted">Total Aktivitas</h6>
+                    <p class="fs-4 fw-bold mb-0">{{ siswa.progress.count() }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if siswa.badges %}
+    <div class="card shadow-sm mb-4">
+        <div class="card-header bg-warning">
+            <i class="fas fa-trophy me-2"></i><strong>Lencana yang Diperoleh</strong>
+        </div>
+        <div class="card-body d-flex flex-wrap gap-3 justify-content-center">
+            {% for user_badge in siswa.badges|sort(attribute='tanggal_dapat', reverse=true) %}
+            <div class="text-center" data-bs-toggle="tooltip" data-bs-title="{{ user_badge.badge.deskripsi }}">
+                {{ user_badge.badge.icon_url|safe }}
+                <div style="font-size: 0.75rem;">{{ user_badge.badge.nama }}</div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="detail-tabs-container">
+        <div class="detail-tabs-fixed-header">
+            <ul class="nav nav-tabs nav-fill" id="materiTab" role="tablist">
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link active" id="selesai-tab" data-bs-toggle="tab"
+                        data-bs-target="#materi-selesai-pane" type="button" role="tab">
+                        Materi Selesai <span class="badge rounded-pill bg-success">{{ materi_selesai|length }}</span>
+                    </button>
+                </li>
+                <li class="nav-item" role="presentation">
+                    <button class="nav-link" id="belum-selesai-tab" data-bs-toggle="tab"
+                        data-bs-target="#materi-belum-selesai-pane" type="button" role="tab">
+                        Materi Belum Selesai <span class="badge rounded-pill bg-secondary">{{
+                            materi_belum_selesai|length }}</span>
+                    </button>
+                </li>
+            </ul>
+        </div>
+
+        <div class="tab-content detail-tabs-scrollable-content">
+            <div class="tab-pane fade show active" id="materi-selesai-pane" role="tabpanel">
+                {% if materi_selesai %}
+                {% for materi in materi_selesai %}
+                <div class="card mb-3">
+                    <div class="card-header"><strong>{{ materi.judul }}</strong></div>
+                    <ul class="list-group list-group-flush">
+                        {% for konten in materi.kontens %}
+                        <li class="list-group-item"><i class="fas fa-check-circle text-success me-2"></i>{{ konten.judul
+                            }}</li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="text-center text-muted p-3">Belum ada materi yang diselesaikan.</p>
+                {% endif %}
+            </div>
+
+            <div class="tab-pane fade" id="materi-belum-selesai-pane" role="tabpanel">
+                {% if materi_belum_selesai %}
+                {% for materi in materi_belum_selesai %}
+                <div class="card mb-3">
+                    <div class="card-header"><strong>{{ materi.judul }}</strong></div>
+                    <ul class="list-group list-group-flush">
+                        {% for konten in materi.kontens %}
+                        <li class="list-group-item">
+                            {% if konten.id in selesai_konten_ids %}
+                            <i class="fas fa-check-circle text-success me-2"></i>
+                            {% else %}
+                            <i class="far fa-circle text-muted me-2"></i>
+                            {% endif %}
+                            {{ konten.judul }}
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                {% endfor %}
+                {% else %}
+                <p class="text-center text-muted p-3">Selamat! Semua materi telah diselesaikan.</p>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <div class="card shadow-sm mt-4">
+        <div class="card-header">
+            <i class="fas fa-paper-plane me-2"></i>Kirim Notifikasi Baru ke {{ siswa.nama_lengkap }}
+        </div>
+        <div class="card-body">
+            <form method="POST" action="{{ url_for('detail_siswa', siswa_id=siswa.id) }}">
+                <div class="mb-3">
+                    <label for="konten" class="form-label">Isi Pesan</label>
+                    <textarea class="form-control" id="konten" name="konten" rows="3"
+                        placeholder="Tulis pesan singkat, umpan balik, atau penyemangat..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Kirim Notifikasi</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

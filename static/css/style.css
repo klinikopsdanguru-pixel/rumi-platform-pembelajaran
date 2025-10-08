@@ -1,0 +1,286 @@
+/* --- PALET WARNA --- */
+:root {
+    --bs-primary: #0d6efd;
+    --bs-success: #198754;
+    --bs-warning: #ffc107;
+    --bs-danger: #dc3545;
+    --bs-info: #0dcaf0;
+    --bs-secondary: #6c757d;
+}
+
+/* --- Pengaturan Global --- */
+body {
+    background-color: #f4f7f6;
+    color: #343a40;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+main {
+    flex-grow: 1;
+    display: flex; /* Tambahkan ini agar child bisa menggunakan flex-grow */
+    flex-direction: column;
+}
+
+/* --- Penyesuaian UI --- */
+.navbar-dark .navbar-nav .nav-link.active {
+    font-weight: 700;
+    color: #ffffff;
+}
+.navbar-dark .navbar-nav .nav-link {
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.75);
+}
+.navbar-dark .navbar-nav .nav-link:hover {
+    color: #ffffff;
+}
+
+.btn:focus, .btn:active {
+   outline: none !important;
+   box-shadow: none !important;
+}
+.btn-primary:hover { background-color: var(--bs-primary); border-color: var(--bs-primary); }
+.btn-success:hover { background-color: var(--bs-success); border-color: var(--bs-success); }
+.btn-warning:hover { background-color: var(--bs-warning); border-color: var(--bs-warning); }
+.btn-danger:hover { background-color: var(--bs-danger); border-color: var(--bs-danger); }
+.btn-secondary:hover { background-color: var(--bs-secondary); border-color: var(--bs-secondary); }
+.btn-info:hover { background-color: var(--bs-info); border-color: var(--bs-info); }
+
+.action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    flex-shrink: 0;
+}
+.action-buttons .btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.action-buttons .btn i {
+    margin-right: 0.35rem;
+}
+
+.tp-title {
+    min-width: 0;
+}
+
+/* --- CSS Halaman Spesifik --- */
+.hero-section {
+    min-height: 100vh; /* KUNCI: Atur tinggi minimal 100% dari tinggi layar */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+}
+.hero-section h1 { font-weight: 700; font-size: 3.5rem; }
+.hero-section p.lead { font-size: 1.25rem; max-width: 750px; margin: 1rem auto; }
+.feature-icon { font-size: 2.5rem; color: var(--bs-primary); }
+.section-bg { background-color: #ffffff; }
+.section-bg-light { background-color: #f8f9fa; }
+
+.full-page-container {
+    display: flex; align-items: center; justify-content: center;
+    width: 100%; min-height: 100%; padding: 2rem 1rem;
+    background-color: #f0f4f8;
+    flex-grow: 1; /* Pastikan container ini juga bisa tumbuh */
+}
+.form-signin, .form-register { width: 100%; max-width: 420px; padding: 25px; margin: auto; }
+
+.role-card, .role-card:hover { 
+    text-decoration: none !important;
+    color: inherit; 
+    display: block; 
+}
+.role-card .card {
+    transition: all 0.2s ease-in-out;
+}
+.role-card:hover .card {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Tata Letak Sticky untuk Halaman Studio */
+.studio-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 56px - 48px); 
+}
+.studio-fixed-header {
+    flex-shrink: 0;
+    background-color: #f4f7f6;
+}
+.tab-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 .375rem .375rem;
+}
+
+/* --- Penyesuaian Tampilan Mobile (Responsif) --- */
+@media (max-width: 767.98px) {
+    
+    .studio-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+    }
+    .studio-header > div:last-child {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 0.5rem;
+    }
+    
+    .card-body.d-flex.justify-content-between {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 1rem;
+    }
+    .card-body .tp-title {
+        text-align: center;
+        margin: 0 !important;
+    }
+    .action-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+    .action-buttons .btn, .action-buttons form, .action-buttons form .btn {
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    /* Tata Letak untuk Daftar Materi Pokok di Halaman Detail TP (Mobile) */
+    .materi-item-container {
+        flex-direction: column;
+        align-items: center; /* KUNCI 1: Posisikan semua itemnya (judul & tombol) ke tengah */
+        gap: 1rem;  
+    }
+
+    .materi-item-container > div:first-child {
+        text-align: center;
+    }
+
+
+    .materi-item-container > div:last-child {
+        justify-content: center;
+        flex-wrap: wrap;
+    }
+
+    .pojok-baca-header {
+        padding: 1.5rem !important;
+    }
+    .pojok-baca-header h1 {
+        font-size: 2rem;
+    }
+    .pojok-baca-header p {
+        font-size: 1rem;
+    }
+    .pojok-baca-header .d-flex {
+        flex-direction: column;
+        align-items: flex-start !important;
+        gap: 1rem;
+    }
+
+   /* Tata Letak Tombol Aksi Materi Pokok (Mobile) */
+    .materi-action-buttons {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;  /* Buat semua tombol sama lebar */
+        gap: 0.5rem;
+        width: 60%; /* KUNCI 2: Atur lebar grup tombol, misal 60% dari kartu */
+        max-width: 280px; /* Batasi lebar maksimal agar tidak terlalu besar */
+    }
+
+    .materi-action-buttons .btn,
+    .materi-action-buttons form {
+        width: 100%;
+    }
+
+    /* Membuat tabel di halaman monitoring menjadi responsif */
+    .table-responsive table thead {
+        display: none; /* Sembunyikan header tabel di mobile */
+    }
+    .table-responsive table tr {
+        display: block;
+        margin-bottom: 1rem;
+        border: 1px solid #dee2e6;
+        border-radius: .375rem;
+    }
+    .table-responsive table td {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: .75rem;
+        border: none;
+        border-bottom: 1px solid #dee2e6;
+    }
+    .table-responsive table td:last-child {
+        border-bottom: none;
+    }
+    .table-responsive table td::before {
+        content: attr(data-label); /* Tampilkan label dari atribut data-label */
+        font-weight: bold;
+        margin-right: 1rem;
+    }
+}
+
+/* Tata Letak Sticky untuk Halaman Monitoring */
+.monitoring-container {
+    display: flex;
+    flex-direction: column;
+    height: calc(100vh - 56px - 48px); 
+}
+.monitoring-fixed-header {
+    flex-shrink: 0;
+    background-color: #f4f7f6;
+}
+.monitoring-scrollable-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    border: 1px solid #dee2e6;
+    border-top: none;
+    border-radius: 0 0 .375rem .375rem;
+}
+.monitoring-scrollable-content .table {
+    margin-bottom: 0;
+}
+
+/* Tata Letak Sticky untuk Tab di Halaman Detail Siswa */
+.detail-tabs-container {
+    display: flex;
+    flex-direction: column;
+    /* Atur tinggi maksimal agar tidak memanjang ke bawah jika konten sedikit */
+    max-height: 60vh;
+    border: 1px solid #dee2e6;
+    border-radius: .375rem;
+}
+.detail-tabs-fixed-header {
+    flex-shrink: 0;
+}
+.detail-tabs-scrollable-content {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 1rem;
+}
+
+/* Perbaikan untuk memastikan tab di halaman Detail Siswa selalu horizontal */
+.detail-tabs-fixed-header .nav-tabs {
+    flex-wrap: nowrap;
+}
+
+/* Penyesuaian Posisi Badge Notifikasi */
+#notificationDropdown {
+    position: relative;
+}
+#notificationDropdown .badge {
+    position: absolute;
+    top: 2px;
+    right: -5px;
+    font-size: 0.6em;
+    padding: 0.3em 0.5em;
+}

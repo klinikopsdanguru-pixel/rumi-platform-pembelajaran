@@ -1,0 +1,60 @@
+{% extends 'layout.html' %}
+{% block title %}Detail TP{% endblock %}
+{% block content %}
+<div class="container">
+    <a href="{{ url_for('studio') }}" class="text-decoration-none mb-3 d-inline-block"><i
+            class="fas fa-arrow-left me-2"></i>Kembali ke Studio</a>
+    <div class="card shadow-sm">
+        <div class="card-header">
+            Tujuan Pembelajaran - Kelas {{ tp.kelas_tujuan }}
+        </div>
+        <div class="card-body">
+            <p class="fs-5">{{ tp.deskripsi }}</p>
+        </div>
+    </div>
+
+    <div class="d-flex justify-content-between align-items-center my-4">
+        <h4>Daftar Materi Pokok</h4>
+        <a href="{{ url_for('buat_materi', tp_id=tp.id) }}" class="btn btn-success">
+            <i class="fas fa-plus me-2"></i>Tambah Materi Pokok
+        </a>
+    </div>
+
+    {% if tp.materis %}
+    <ul class="list-group">
+        {% for materi in tp.materis %}
+        <li class="list-group-item">
+            <div class="d-flex justify-content-between align-items-center materi-item-container">
+                <div class="me-3" style="min-width: 0; flex-grow: 1;">
+                    <strong>{{ materi.judul }}</strong>
+                    <br>
+                    <small class="text-muted">{{ materi.deskripsi }}</small>
+                </div>
+                <div class="d-flex align-items-center materi-action-buttons gap-2" style="flex-shrink: 0;">
+                    <a href="{{ url_for('kelola_konten', materi_id=materi.id) }}" class="btn btn-sm btn-info">Kelola
+                        Konten ({{materi.kontens|length}})</a>
+
+                    <form action="{{ url_for('publish_materi', materi_id=materi.id) }}" method="POST">
+                        {% if materi.status == 'draft' %}
+                        <button type="submit" class="btn btn-sm btn-success">Publikasikan</button>
+                        {% else %}
+                        <button type="submit" class="btn btn-sm btn-secondary">Jadikan Draft</button>
+                        {% endif %}
+                    </form>
+                    
+                    <a href="{{ url_for('edit_materi', materi_id=materi.id) }}" class="btn btn-sm btn-warning">Edit</a>
+
+                    <form action="{{ url_for('hapus_materi', materi_id=materi.id) }}" method="POST"
+                        onsubmit="return confirm('Menghapus materi pokok akan menghapus SEMUA konten di dalamnya. Apakah Anda yakin?');">
+                        <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                    </form>
+                </div>
+            </div>
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <div class="alert alert-light">Belum ada Materi Pokok untuk Tujuan Pembelajaran ini.</div>
+    {% endif %}
+</div>
+{% endblock %}

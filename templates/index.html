@@ -1,0 +1,72 @@
+{% extends 'layout.html' %}
+{% block title %}Selamat Datang di Platform Pembelajaran IPA Terpadu{% endblock %}
+{% block content %}
+<div class="hero-section">
+    <div class="container">
+        <h1 class="display-4">Belajar Sains Menjadi Lebih Hidup Bersama RUMI</h1>
+        <p class="lead text-muted">Satu platform untuk memahami konsep, mengaplikasikan pengetahuan, dan merefleksikan
+            pembelajaran IPA secara mandiri, terstruktur, dan menyenangkan.</p>
+        <div class="mt-4">
+            <a href="{{ url_for('register') }}" class="btn btn-success btn-lg px-4 me-2">Daftar Akun Gratis</a>
+            <a href="{{ url_for('login') }}" class="btn btn-primary btn-lg px-4">Masuk</a>
+        </div>
+    </div>
+</div>
+
+<div class="section-bg-light">
+    <div class="container px-4 py-5">
+        <h2 class="pb-2 text-center">Alur Belajar Terstruktur 3M</h2>
+        <div class="row g-4 py-5 row-cols-1 row-cols-lg-3">
+            <div class="col d-flex align-items-start text-center">
+                <div class="w-100">
+                    <div class="feature-icon mb-3 mx-auto"><i class="fas fa-book-open"></i></div>
+                    <h2>Memahami</h2>
+                    <p>Materi interaktif, video, dan infografis yang telah dikurasi untuk membangun fondasi pengetahuan
+                        yang kuat.</p>
+                </div>
+            </div>
+            <div class="col d-flex align-items-start text-center">
+                <div class="w-100">
+                    <div class="feature-icon mb-3 mx-auto"><i class="fas fa-flask"></i></div>
+                    <h2>Mengaplikasi</h2>
+                    <p>Terapkan ilmumu melalui laboratorium virtual, proyek kolaboratif, dan studi kasus dunia nyata.
+                    </p>
+                </div>
+            </div>
+            <div class="col d-flex align-items-start text-center">
+                <div class="w-100">
+                    <div class="feature-icon mb-3 mx-auto"><i class="fas fa-brain"></i></div>
+                    <h2>Merefleksi</h2>
+                    <p>Perdalam pemahaman dan kesadaran belajarmu dengan jurnal refleksi terpandu format 4P.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="section-bg">
+    <div class="container px-4 py-5">
+        <h2 class="pb-2 text-center">Dirancang Untuk Ekosistem Belajar Terpadu</h2>
+        <div class="row g-4 py-5 row-cols-1 row-cols-md-3">
+            <div class="col text-center">
+                <div class="feature-icon mb-3 mx-auto"><i class="fas fa-user-graduate"></i></div>
+                <h4>Untuk Siswa</h4>
+                <p class="text-muted">Jalur belajar yang jelas, materi menarik, dan kebebasan mengatur ritme belajar
+                    sendiri.</p>
+            </div>
+            <div class="col text-center">
+                <div class="feature-icon mb-3 mx-auto"><i class="fas fa-chalkboard-teacher"></i></div>
+                <h4>Untuk Guru</h4>
+                <p class="text-muted">Studio pembuatan materi yang mudah, dan dashboard monitoring progres siswa secara
+                    real-time.</p>
+            </div>
+            <div class="col text-center">
+                <div class="feature-icon mb-3 mx-auto"><i class="fas fa-users"></i></div>
+                <h4>Untuk Orang Tua</h4>
+                <p class="text-muted">Akses mudah untuk memantau perkembangan dan pencapaian belajar anak tanpa
+                    intervensi.</p>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

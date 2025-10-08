@@ -1,0 +1,45 @@
+{% extends 'layout.html' %}
+{% block title %}Kelola Pojok Baca Sains{% endblock %}
+{% block content %}
+<div class="container">
+    <a href="{{ url_for('pojok_baca') }}" class="text-decoration-none mb-3 d-inline-block">
+        <i class="fas fa-arrow-left me-2"></i>Kembali ke Pojok Baca
+    </a>
+
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h2>Kelola Pojok Baca Sains</h2>
+            <p class="text-muted">Tambah, edit, atau hapus koleksi bacaan untuk siswa.</p>
+        </div>
+        <a href="{{ url_for('tambah_bacaan') }}" class="btn btn-success">
+            <i class="fas fa-plus me-2"></i>Tambah Bacaan Baru
+        </a>
+    </div>
+
+    <div class="card shadow-sm">
+        <div class="card-body">
+            <ul class="list-group list-group-flush">
+            {% for bacaan in semua_bacaan %}
+                <li class="list-group-item d-flex justify-content-between align-items-center">
+                    <div class="d-flex align-items-center">
+                        <img src="{{ bacaan.url_sampul }}" alt="Sampul" style="width: 50px; height: 70px; object-fit: cover;" class="me-3 rounded">
+                        <div>
+                            <strong>{{ bacaan.judul }}</strong><br>
+                            <small class="text-muted">{{ bacaan.kategori }}</small>
+                        </div>
+                    </div>
+                    <div>
+                        <a href="{{ url_for('edit_bacaan', bacaan_id=bacaan.id) }}" class="btn btn-sm btn-warning me-2">Edit</a>
+                        <form action="{{ url_for('hapus_bacaan', bacaan_id=bacaan.id) }}" method="POST" class="d-inline" onsubmit="return confirm('Apakah Anda yakin ingin menghapus materi ini?');">
+                            <button type="submit" class="btn btn-sm btn-danger">Hapus</button>
+                        </form>
+                    </div>
+                </li>
+            {% else %}
+                <li class="list-group-item text-center text-muted">Belum ada materi bacaan. Silakan tambahkan.</li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+</div>
+{% endblock %}

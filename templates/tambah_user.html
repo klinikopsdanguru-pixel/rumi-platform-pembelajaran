@@ -1,0 +1,47 @@
+{% extends 'layout.html' %}
+{% block title %}Tambah Pengguna Baru{% endblock %}
+{% block content %}
+<div class="container" style="max-width: 700px;">
+    <h2>Tambah Pengguna Baru</h2>
+    <p class="text-muted">Buat akun baru untuk siswa, guru, atau orang tua.</p>
+    
+    <form method="POST" class="card p-4 shadow-sm">
+        <div class="mb-3">
+            <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
+            <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" required>
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" required>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password</label>
+            <input type="password" class="form-control" id="password" name="password" required>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="peran" class="form-label">Peran</label>
+                <select class="form-select" id="peran" name="peran" required>
+                    <option value="siswa">Siswa</option>
+                    <option value="guru">Guru</option>
+                    <option value="orangtua">Orang Tua</option>
+                    <option value="admin">Admin</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="nama_sekolah" class="form-label">Nama Sekolah</label>
+                <input type="text" class="form-control" id="nama_sekolah" name="nama_sekolah" required>
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="kelas" class="form-label">Kelas (hanya jika peran siswa)</label>
+            <input type="text" class="form-control" id="kelas" name="kelas" placeholder="Contoh: 7, 8, atau 9">
+        </div>
+        
+        <div class="d-flex justify-content-end mt-3">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-danger me-2">Batal</a>
+            <button type="submit" class="btn btn-success">Simpan Pengguna Baru</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

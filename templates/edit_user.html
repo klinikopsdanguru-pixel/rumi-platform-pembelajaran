@@ -1,0 +1,44 @@
+{% extends 'layout.html' %}
+{% block title %}Edit Pengguna{% endblock %}
+{% block content %}
+<div class="container" style="max-width: 700px;">
+    <h2>Edit Pengguna: {{ user_to_edit.nama_lengkap }}</h2>
+    <p class="text-muted">Perbarui detail, peran, atau reset password pengguna.</p>
+    
+    <form method="POST" class="card p-4 shadow-sm">
+        <div class="mb-3">
+            <label for="nama_lengkap" class="form-label">Nama Lengkap</label>
+            <input type="text" class="form-control" id="nama_lengkap" name="nama_lengkap" value="{{ user_to_edit.nama_lengkap }}" required>
+        </div>
+        <div class="mb-3">
+            <label for="username" class="form-label">Username</label>
+            <input type="text" class="form-control" id="username" name="username" value="{{ user_to_edit.username }}" required>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-3">
+                <label for="peran" class="form-label">Peran</label>
+                <select class="form-select" id="peran" name="peran" required>
+                    <option value="siswa" {% if user_to_edit.peran == 'siswa' %}selected{% endif %}>Siswa</option>
+                    <option value="guru" {% if user_to_edit.peran == 'guru' %}selected{% endif %}>Guru</option>
+                    <option value="orangtua" {% if user_to_edit.peran == 'orangtua' %}selected{% endif %}>Orang Tua</option>
+                    <option value="admin" {% if user_to_edit.peran == 'admin' %}selected{% endif %}>Admin</option>
+                </select>
+            </div>
+            <div class="col-md-6 mb-3">
+                <label for="kelas" class="form-label">Kelas (jika siswa)</label>
+                <input type="text" class="form-control" id="kelas" name="kelas" value="{{ user_to_edit.kelas or '' }}">
+            </div>
+        </div>
+        <div class="mb-3">
+            <label for="password" class="form-label">Password Baru</label>
+            <input type="password" class="form-control" id="password" name="password" placeholder="Kosongkan jika tidak ingin mengubah">
+            <div class="form-text">Isi kolom ini hanya jika Anda ingin mereset password pengguna.</div>
+        </div>
+        
+        <div class="d-flex justify-content-end mt-3">
+            <a href="{{ url_for('admin_dashboard') }}" class="btn btn-danger me-2">Batal</a>
+            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

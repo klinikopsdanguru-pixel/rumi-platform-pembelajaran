@@ -1,0 +1,46 @@
+{% extends 'layout.html' %}
+{% block title %}Jalur Belajarku{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="mb-4">
+        <h2>Jalur Belajarku</h2>
+        <p class="text-muted">Berikut adalah daftar Tujuan Pembelajaran (TP) yang tersedia untuk kelas Anda.</p>
+    </div>
+
+    {% if tps %}
+        <div class="accordion" id="accordionTP">
+        {% for tp in tps %}
+            <div class="accordion-item">
+                <h2 class="accordion-header" id="heading-{{ tp.id }}">
+                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse-{{ tp.id }}">
+                        {{ tp.deskripsi }}
+                    </button>
+                </h2>
+                <div id="collapse-{{ tp.id }}" class="accordion-collapse collapse" data-bs-parent="#accordionTP">
+                    <div class="accordion-body">
+                        {% set published_materis = tp.materis|selectattr('status', 'equalto', 'published')|list %}
+                        {% if published_materis %}
+                            <div class="list-group">
+                            {% for materi in published_materis %}
+                                <a href="{{ url_for('materi_detail', materi_id=materi.id) }}" class="list-group-item list-group-item-action">
+                                    <strong>{{ materi.judul }}</strong>
+                                    <p class="mb-1 text-muted">{{ materi.deskripsi }}</p>
+                                </a>
+                            {% endfor %}
+                            </div>
+                        {% else %}
+                            <p class="text-muted">Saat ini belum ada materi pokok yang dipublikasikan untuk tujuan pembelajaran ini.</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            <h4 class="alert-heading">Belum Ada Tujuan Pembelajaran</h4>
+            <p>Saat ini guru belum menetapkan Tujuan Pembelajaran untuk kelas Anda. Silakan cek kembali nanti.</p>
+        </div>
+    {% endif %}
+</div>
+{% endblock %}

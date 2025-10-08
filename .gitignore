@@ -1,0 +1,16 @@
+# Folder Virtual Environment
+venv/
+.venv/
+
+# Folder cache Python
+__pycache__/
+*.pyc
+
+# File database SQLite
+# Sebaiknya tidak diunggah karena sering berubah dan bisa berisi data sensitif
+*.db
+*.db-journal
+
+# File spesifik OS
+.DS_Store
+Thumbs.db

@@ -1,0 +1,27 @@
+{% extends 'layout.html' %}
+{% block title %}Edit Tujuan Pembelajaran{% endblock %}
+{% block content %}
+<div class="container" style="max-width: 700px;">
+    <h2>Edit Tujuan Pembelajaran</h2>
+    <p class="text-muted">Perbarui detail untuk Tujuan Pembelajaran yang sudah ada.</p>
+    
+    <form method="POST" action="{{ url_for('edit_tp', tp_id=tp.id) }}" class="card p-4 shadow-sm">
+        <div class="mb-3">
+            <label for="deskripsi" class="form-label">Deskripsi Tujuan Pembelajaran</label>
+            <textarea class="form-control" id="deskripsi" name="deskripsi" rows="3" required>{{ tp.deskripsi }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="kelas_tujuan" class="form-label">Untuk Kelas</label>
+            <select class="form-select" id="kelas_tujuan" name="kelas_tujuan" required>
+                <option value="7" {% if tp.kelas_tujuan == 7 %}selected{% endif %}>Kelas 7</option>
+                <option value="8" {% if tp.kelas_tujuan == 8 %}selected{% endif %}>Kelas 8</option>
+                <option value="9" {% if tp.kelas_tujuan == 9 %}selected{% endif %}>Kelas 9</option>
+            </select>
+        </div>
+        <div class="d-flex justify-content-end">
+            <a href="{{ url_for('studio') }}" class="btn btn-danger me-2">Batal</a>
+            <button type="submit" class="btn btn-success">Simpan Perubahan</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

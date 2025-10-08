@@ -1,0 +1,21 @@
+{% extends 'layout.html' %}
+{% block title %}Akses Dashboard Orang Tua{% endblock %}
+{% block content %}
+<div class="full-page-container">
+    <div class="form-signin text-center">
+        <form action="{{ url_for('parent_access') }}" method="post">
+            <a href="{{ url_for('login') }}" class="text-decoration-none text-muted d-block mb-4">
+                <i class="fas fa-arrow-left me-1"></i>Kembali ke Halaman Login
+            </a>
+            <i class="fas fa-users fa-4x text-info mb-4"></i>
+            <h1 class="h3 mb-3 fw-normal">Akses Orang Tua</h1>
+            <p class="text-muted">Masukkan kode unik yang diberikan oleh putra/putri Anda untuk menghubungkan akun.</p>
+            <div class="form-floating mb-3">
+                <input type="text" class="form-control" id="unique_code" name="unique_code" placeholder="Kode Unik Anak" required>
+                <label for="unique_code">Kode Unik Anak</label>
+            </div>
+            <button class="w-100 btn btn-lg btn-info text-white" type="submit">Hubungkan Akun</button>
+        </form>
+    </div>
+</div>
+{% endblock %}

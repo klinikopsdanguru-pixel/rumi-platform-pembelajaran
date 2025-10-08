@@ -1,0 +1,49 @@
+{% extends 'layout.html' %}
+{% block title %}Pilih Jenis Akun{% endblock %}
+{% block content %}
+<div class="full-page-container">
+    <div class="container">
+        <div class="text-center mb-3">
+            <a href="{{ url_for('index') }}" class="text-decoration-none text-muted">
+                <i class="fas fa-arrow-left me-1"></i>Kembali ke Halaman Utama
+            </a>
+        </div>
+        <h1 class="mb-2 text-center">Daftar Akun Baru</h1>
+        <p class="lead text-muted mb-3 text-center">Silakan pilih peran Anda untuk memulai.</p>
+        <div class="row">
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('register_student') }}" class="role-card">
+                    <div class="card h-100">
+                        <div class="card-body p-4 text-center"><i
+                                class="fas fa-user-graduate fa-4x text-primary mb-4"></i>
+                            <h2>Saya Siswa</h2>
+                            <p class="text-muted">Buat akun untuk memulai perjalanan belajarmu.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('register_teacher') }}" class="role-card">
+                    <div class="card h-100">
+                        <div class="card-body p-4 text-center"><i
+                                class="fas fa-chalkboard-teacher fa-4x text-success mb-4"></i>
+                            <h2>Saya Guru</h2>
+                            <p class="text-muted">Buat akun untuk membuat materi dan memonitor siswa.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 mb-3">
+                <a href="{{ url_for('register_parent') }}" class="role-card">
+                    <div class="card h-100">
+                        <div class="card-body p-4 text-center"><i class="fas fa-users fa-4x text-info mb-4"></i>
+                            <h2>Saya Orang Tua</h2>
+                            <p class="text-muted">Buat akun untuk memantau progres belajar anak.</p>
+                        </div>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

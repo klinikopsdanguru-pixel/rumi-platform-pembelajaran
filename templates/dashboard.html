@@ -1,0 +1,99 @@
+{% extends 'layout.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<div class="container">
+    <div class="row mb-4">
+        <div class="col-12">
+            <h3>Selamat Datang, <br> {{ session.user_name }}!</h3>
+            <p class="text-muted">Mari kita mulai petualangan sains hari ini.</p>
+        </div>
+    </div>
+
+    {% if session.user_role == 'siswa' %}
+    <div class="row g-4">
+        <div class="col-12 col-lg-7">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h5 class="card-title text-primary">Pelajaran Saat Ini</h5>
+                    {% if pelajaran_saat_ini %}
+                    <h3 class="mb-3">{{ pelajaran_saat_ini.judul }}</h3>
+                    <div class="progress mb-3" style="height: 20px;">
+                        <div class="progress-bar" role="progressbar" style="width: {{ progress_bar }}%;"
+                            aria-valuenow="{{ progress_bar }}" aria-valuemin="0" aria-valuemax="100">{{ progress_bar }}%
+                        </div>
+                    </div>
+                    <p class="card-text">{{ pelajaran_saat_ini.deskripsi or 'Lanjutkan progres belajarmu untuk materi
+                        ini.' }}</p>
+                    <a href="{{ url_for('materi_detail', materi_id=pelajaran_saat_ini.id) }}"
+                        class="btn btn-primary btn-lg">Lanjutkan Belajar <i class="fas fa-arrow-right ms-2"></i></a>
+                    {% else %}
+                    <div class="alert alert-light mt-3">
+                        <h4 class="alert-heading">Ayo Mulai!</h4>
+                        <p>Anda belum memulai materi pelajaran apapun. Buka "Jalur Belajarku" untuk memilih materi dan
+                            memulai petualangan sains Anda!</p>
+                        <hr>
+                        <a href="{{ url_for('jalur_belajar') }}" class="btn btn-primary">Buka Jalur Belajar</a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 col-lg-5">
+            <div class="card h-100 shadow-sm border-0">
+                <div class="card-body p-4">
+                    <h5 class="card-title">Ringkasan Progres</h5>
+                    <ul class="list-group list-group-flush">
+                        <li class="list-group-item d-flex justify-content-between align-items-center fs-5 p-3">
+                            Materi Selesai
+                            <span class="badge bg-success rounded-pill">{{ selesai_materi }} dari {{ total_materi
+                                }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center fs-5 p-3">
+                            Lencana Didapat
+                            <span class="badge bg-warning rounded-pill">{{ jumlah_lencana }}</span>
+                        </li>
+                    </ul>
+                    <a href="{{ url_for('profil') }}" class="btn btn-outline-primary mt-3">Lihat Semua Lencana</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% elif session.user_role == 'guru' %}
+    <div class="row g-4">
+        <div class="col-12 col-md-6">
+            <div class="card text-center h-100 shadow-sm border-0">
+                <div class="card-body p-5">
+                    <i class="fas fa-pencil-ruler fa-4x text-primary mb-4"></i>
+                    <h3 class="card-title">Studio Pembelajaran</h3>
+                    <p class="card-text">Buat, edit, dan atur Tujuan Pembelajaran serta Materi Pokok untuk kelas Anda di
+                        sini.</p>
+                    <a href="{{ url_for('studio') }}" class="btn btn-info btn-lg">Kelola Materi</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 col-md-6">
+            <div class="card text-center h-100 shadow-sm border-0">
+                <div class="card-body p-5">
+                    <i class="fas fa-chart-bar fa-4x text-success mb-4"></i>
+                    <h3 class="card-title">Monitoring Siswa</h3>
+                    <p class="card-text">Pantau progres belajar, lihat hasil kuis, dan berikan umpan balik kepada setiap
+                        siswa.</p>
+                    <a href="{{ url_for('monitoring_siswa') }}" class="btn btn-success btn-lg">Lihat Progres Kelas</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% elif session.user_role == 'orangtua' %}
+    {% if student %}
+    {% include 'dashboard_parent.html' %}
+    {% endif %}
+
+    {% else %}
+    <div class="alert alert-info">Dashboard untuk peran Anda sedang dalam pengembangan.</div>
+    {% endif %}
+
+</div>
+{% endblock %}
